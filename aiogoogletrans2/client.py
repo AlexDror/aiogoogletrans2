@@ -5,14 +5,15 @@ A Translation module.
 You can translate text using this module.
 """
 import random
-import typing
-import re
+
 import json
 
 import aiohttp
+from async_timeout import Timeout
 
-import aiogoogletrans2.urls
-import aiogoogletrans2.utils
+
+from aiogoogletrans2 import urls
+from aiogoogletrans2 import utils
 from aiogoogletrans2.gtoken import TokenAcquirer
 from aiogoogletrans2.constants import (
     DEFAULT_CLIENT_SERVICE_URLS,
@@ -104,7 +105,7 @@ class Translator:
         return random.choice(self.service_urls)
 
     async def _translate(self, text: str, dest: str, src: str):
-        url = googletrans4.urls.TRANSLATE_RPC.format(host=self._pick_service_url())
+        url = urls.TRANSLATE_RPC.format(host=self._pick_service_url())
         data = {
             'f.req': self._build_rpc_request(text, dest, src),
         }
